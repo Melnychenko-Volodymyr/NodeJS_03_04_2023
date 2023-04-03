@@ -13,14 +13,14 @@ http.createServer((request, response) => {
     console.log(`Запит адреси: ${path}`);
     const filePath = path.substr(1);
     // перевірка наявності файлу
-    fs.access(filePath, fs.constants.R_OK, (err) => {
+    fs.readFile(filePath, (error, data) => {
       // файл не знайдено
-      if (err) {
+      if (error) {
         response.statusCode = 404;
         response.end('Файл не знайдено!');
       } else {
 	// передаємо файл браузеру
-        fs.createReadStream(filePath).pipe(response);
+        response.end(data);
       }
     })
   })
